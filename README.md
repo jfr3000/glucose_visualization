@@ -1,16 +1,14 @@
-# glucose_visualization
+# Glucose Monitor App
 
-A new Flutter project.
+A Flutter application for visualizing and analyzing blood glucose levels over time. This app allows users to filter glucose data by a selected date range and view the corresponding data on a line chart. Also provides blood glucose statistics on the selected date range.
 
-## Getting Started
+# Installation
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. **Clone the repository**:
+   ```
+   git clone https://github.com/yourusername/glucose-monitor-app.git
+   cd glucose-monitor-app
+2. **Install dependencies and run the app**:
+  ```
+  flutter pub get
+  flutter run
