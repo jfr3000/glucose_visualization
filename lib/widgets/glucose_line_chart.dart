@@ -2,6 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:glucose_visualization/providers/selected_date_range.dart';
+import 'package:provider/provider.dart';
 import '../models/glucose_sample.dart';
 
 class GlucoseLineChart extends StatelessWidget {
@@ -11,6 +13,17 @@ class GlucoseLineChart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final dateRangeProvider = Provider.of<DateRangeProvider>(context);
+    final DateTime? startDate = dateRangeProvider.startDate;
+    final DateTime? endDate = dateRangeProvider.endDate;
+
+    double minX = startDate != null
+        ? startDate.millisecondsSinceEpoch.toDouble()
+        : data.first.timestamp.millisecondsSinceEpoch.toDouble();
+    double maxX = endDate != null
+        ? endDate.millisecondsSinceEpoch.toDouble()
+        : data.last.timestamp.millisecondsSinceEpoch.toDouble();
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: SizedBox(
@@ -18,8 +31,8 @@ class GlucoseLineChart extends StatelessWidget {
         width: 1000,
         child: LineChart(
           LineChartData(
-            minX: data.first.timestamp.millisecondsSinceEpoch.toDouble(),
-            maxX: data.last.timestamp.millisecondsSinceEpoch.toDouble(),
+            minX: minX,
+            maxX: maxX,
             minY: data.map((s) => s.value).reduce(min), //TODO adjust
             maxY: data.map((s) => s.value).reduce(max), //TODO adjust
             lineBarsData: [
@@ -41,7 +54,8 @@ class GlucoseLineChart extends StatelessWidget {
               border: Border.all(color: Colors.black, width: 1),
             ),
             titlesData: FlTitlesData(
-              topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+              topTitles:
+                  const AxisTitles(sideTitles: SideTitles(showTitles: false)),
               bottomTitles: AxisTitles(
                 sideTitles: SideTitles(
                   showTitles: true,
@@ -62,6 +76,7 @@ class GlucoseLineChart extends StatelessWidget {
               ),
             ),
             gridData: const FlGridData(show: true),
+            clipData: const FlClipData.all(),
             lineTouchData: LineTouchData(
               touchCallback:
                   (FlTouchEvent event, LineTouchResponse? touchResponse) {},
